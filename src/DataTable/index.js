@@ -11,13 +11,13 @@ const DataTable = () => {
     baseURL: 'https://mobilicis-backend1.onrender.com'
   })
 
-  useEffect(() => {
+  
     
 // DEFINED FIVE FUNCTIONS TO GET THE DATA OF USERS OF FIVE COLUMNS
   const getColumnOneData = async () => {
     try {
       const response = await client.get('/lt5BMW|Mercedes');
-      console.log('getColumnOneData called', response);
+      // console.log('getColumnOneData called', response);
       data1 = response.data.map((el,i) => el.first_name.concat(" " + el.last_name))
     } catch (error) {
       console.log(error)
@@ -77,7 +77,7 @@ const DataTable = () => {
     ;
   }
 // CALLING ALL THE functions DEFINED ABOVE 
-  
+useEffect(() => {
     
     getColumnOneData();
     getColumnTwoData();
@@ -97,7 +97,7 @@ const DataTable = () => {
       }
     }
     
-    //  console.log(lengths)
+     console.log(lengths)
   }
 
   let res = [];

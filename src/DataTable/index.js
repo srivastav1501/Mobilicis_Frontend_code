@@ -28,7 +28,7 @@ const DataTable = () => {
 
   const getColumnTwoData = async () => {
     try {
-      const response = await client.get('/male|phgt10k')
+      const response = await client.get('/male|phgt10k');
       data2 = response.data.map((el) => el.first_name.concat(" " + el.last_name));
     } catch (error) {
       console.log(error)

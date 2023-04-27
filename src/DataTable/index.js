@@ -6,30 +6,30 @@ const DataTable = () => {
   let data1, data2, data3, data4, data5 = ''
   const [loading, setLoading] = useState(true);
   const [finaldata, setFinalData] = useState([]);
+  let largest = 0;
+  let res = [];
 
   const client = Axios.create({
     baseURL: 'https://mobilicis-backend1.onrender.com'
   })
 
-  
-    
-// DEFINED FIVE FUNCTIONS TO GET THE DATA OF USERS OF FIVE COLUMNS
+  // DEFINED FIVE FUNCTIONS TO GET THE DATA OF USERS OF FIVE COLUMNS
   const getColumnOneData = async () => {
     try {
-      const response = await client.get('/lt5BMW|Mercedes');
+       data1 = await client.get('/lt5BMW|Mercedes');
       // console.log('getColumnOneData called', response);
-      data1 = response.data.map((el,i) => el.first_name.concat(" " + el.last_name))
+      data1 = data1.data.map((el, i) => el.first_name.concat(" " + el.last_name))
     } catch (error) {
       console.log(error)
     }
-    
+
   }
   // console.log(data1)
 
   const getColumnTwoData = async () => {
     try {
-      const response = await client.get('/male|phgt10k');
-      data2 = response.data.map((el) => el.first_name.concat(" " + el.last_name));
+       data2 = await client.get('/male|phgt10k');
+      data2 = data2.data.map((el) => el.first_name.concat(" " + el.last_name));
     } catch (error) {
       console.log(error)
     }
@@ -39,20 +39,20 @@ const DataTable = () => {
 
   const getColumnThreeData = async () => {
     try {
-      const response = await client.get('/lnstwMqtgt15');
-      data3 = response.data.map((el) => el.first_name.concat(" " + el.last_name));
+       data3 = await client.get('/lnstwMqtgt15');
+      data3 = data3.data.map((el) => el.first_name.concat(" " + el.last_name));
       ;
     } catch (error) {
       console.log(error)
     }
     //  console.log('data3',data3)
-    
+
   }
 
   const getColumnFourData = async () => {
     try {
-      const response = await client.get('/bmw|mrec|audi&emailnotd');
-      data4 = response.data.map((el) => el.first_name.concat(" " + el.last_name));
+       data4 = await client.get('/bmw|mrec|audi&emailnotd');
+      data4 = data4.data.map((el) => el.first_name.concat(" " + el.last_name));
     } catch (error) {
       console.log(error)
     }
@@ -62,23 +62,36 @@ const DataTable = () => {
 
   const getColumnFiveData = async () => {
     try {
-      const response = await client.get('/top10CWithHighNoOfUsersAndAverageIncm');
-      data5 = response.data.map((el) => el._id);
+       data5 = await client.get('/top10CWithHighNoOfUsersAndAverageIncm');
+      data5 = data5.data.map((el) => el._id);
     } catch (error) {
       console.log(error)
     }
     //  console.log('data5',data5)
-    
+
+
     setTimeout(() => {
+      // STORING THE LENGTH OF LARGEST ARRA IN largest VARIABLE BECAUES WE NEED THIS LARGEST ARRAY TO SET FINAL DATA
+      const length = () => {
+        // setLoading(true)
+        const lengths = [data1.length, data2.length, data3.length, data4.length, data5.length]
+        for (let i = 0; i <= lengths.length; i++) {
+          if (lengths[i] > largest) {
+            largest = lengths[i];
+          }
+        }
+        console.log(lengths);
+      }
+
       length();
       finalDataSetting();
       setLoading(false)
-    }, 2500)
-    ;
+    }, 2000)
+      ;
   }
-// CALLING ALL THE functions DEFINED ABOVE 
-useEffect(() => {
-    
+  // CALLING ALL THE functions DEFINED ABOVE 
+  useEffect(() => {
+
     getColumnOneData();
     getColumnTwoData();
     getColumnThreeData();
@@ -86,21 +99,7 @@ useEffect(() => {
     getColumnFiveData();
   }, [])
 
-// STORING THE LENGTH OF LARGEST ARRA IN largest VARIABLE BECAUES WE NEED THIS LARGEST ARRAY TO SET FINAL DATA
-  let largest = 0;
-  const length = () => {
-    // setLoading(true)
-    const lengths = [data1.length, data2.length, data3.length, data4.length, data5.length]
-    for (let i = 0; i <= lengths.length; i++) {
-      if (lengths[i] > largest) {
-        largest = lengths[i];
-      }
-    }
-    
-     console.log(lengths)
-  }
 
-  let res = [];
   const finalDataSetting = () => {
     // setLoading(true)
     res = [];
@@ -115,7 +114,7 @@ useEffect(() => {
     }
     // console.log('dhghghgjhgjh', res);
     setFinalData(res);
-    
+
   }
 
   // console.log(finaldata)
@@ -152,12 +151,12 @@ useEffect(() => {
 
   return (
     <div>
-        <Table
-          columns={columns}
-          dataSource={finaldata}
-          loading={loading}
-        />
-      
+      <Table
+        columns={columns}
+        dataSource={finaldata}
+        loading={loading}
+      />
+
     </div>
 
   )
